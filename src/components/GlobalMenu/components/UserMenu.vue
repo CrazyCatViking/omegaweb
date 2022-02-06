@@ -1,33 +1,41 @@
 <template>
-  <div class="user-menu">
-    {{ userName }}
-  </div>
+  <omega-menu
+    direction="left"
+  >
+    <template v-slot:activator>
+      <omega-button>
+        {{ userName }}
+      </omega-button>
+    </template>
+
+    <template v-slot:content>
+      <omega-button>
+        {{ 'Settings' }}
+      </omega-button>
+      <omega-button>
+        {{ 'Logout' }}
+      </omega-button>
+    </template>
+  </omega-menu>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
+import OmegaMenu from '@/components/OmegaComponents/OmegaMenu.vue';
+import OmegaButton from '@/components/OmegaComponents/OmegaButton.vue';
 
 export default defineComponent({
+  components: {
+    OmegaMenu,
+    OmegaButton,
+  },
+  
   setup() {
-    const userName = ref('Kristoffer Jansen');
-    
+    const userName = ref('Kristoffer Solvang-Jansen');
+
     return {
       userName,
     }
   },
 });
 </script>
-
-<style lang="scss">
-.user-menu {
-  position: relative;
-  height: 100%;
-  width: 8rem;
-
-  background-color: darkgray;
-
-  text-align: center;
-  vertical-align: middle;
-  line-height: 3rem;
-}
-</style>

@@ -1,6 +1,6 @@
 <template>
   <button class="omega-button">
-    <slot></slot>
+    <slot />
   </button>
 </template>
 
@@ -8,12 +8,20 @@
 import { defineComponent } from 'vue';
 
 export default defineComponent({
-  name: 'OmegaButton',
+  props: {
+  }
 });
 </script>
 
 <style lang="scss">
 .omega-button {
-  display: flex;
+  height: 3rem;
+  border-radius: 4px;
+  background: none;
+  border: none;
+}
+
+.omega-button:hover {
+  background-color: rgba(0, 0, 0, 0.2);
 }
 </style>

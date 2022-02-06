@@ -1,11 +1,16 @@
 <template>
   <div class="global-menu">
-    <button 
+    <div class="global-menu__guild-context">
+      <GuildContextDropDown 
+        v-model="selectedServer"
+      />
+    </div>
+    
+    <omega-button 
       v-if="false"
-      class="global-menu__login-button"
     >
       {{ 'Login' }}
-    </button>
+    </omega-button>
     <div class="global-menu__user-menu">
       <UserMenu />
     </div>
@@ -13,21 +18,36 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, ref } from 'vue';
+import OmegaButton from '@/components/OmegaComponents/OmegaButton.vue';
 import UserMenu from './components/UserMenu.vue';
+import GuildContextDropDown from './components/GuildContextDropDown.vue';
 
 export default defineComponent({
   components: {
+    OmegaButton,
     UserMenu,
-  }
+    GuildContextDropDown,
+  },
+
+  setup() {
+    const selectedServer = ref();
+
+    return {
+      selectedServer,
+    };
+  },
 });
 </script>
 
 <style lang="scss">
 .global-menu {
+  display: flex;
   position: relative;
   height: 100%;
   width: 100%;
+
+  justify-content: space-between;
 }
 
 .global-menu__login-button {
@@ -42,6 +62,23 @@ export default defineComponent({
 }
 
 .global-menu__user-menu {
-  float: right;
+  display: flex;
+  flex-direction: column;
+
+  justify-content: center;
+}
+
+.global-menu__guild-context {
+  display: flex;
+  float: left;
+
+  flex-direction: column;
+
+  justify-content: center;
+
+  border-right: 1px solid grey;
+
+  width: 12rem;
+  height: 3rem;
 }
 </style>

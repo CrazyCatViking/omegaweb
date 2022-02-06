@@ -37,12 +37,16 @@ $header-menu-height: 3rem;
 .global-page-layout {
   width: 100%;
   height: 100%;
+
+  overflow: auto;
 }
 
 .app-context-menu {
   position: fixed;
   width: $context-menu-width;
   height: calc(100% - $header-menu-height);
+
+  z-index: 1000;
 
   left: 0;
   top: 3rem;
@@ -54,6 +58,8 @@ $header-menu-height: 3rem;
   position: fixed;
   height: $header-menu-height;
   width: 100%;
+
+  z-index: 2000;
   
   left: 0;
   top: 0;
@@ -66,7 +72,7 @@ $header-menu-height: 3rem;
   height: calc(100% - $header-menu-height);
   width: calc(100% - $context-menu-width);
   overflow: auto;
-
+  
   top: 3rem;
   left: 12rem;
 
