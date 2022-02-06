@@ -4,7 +4,7 @@
   >
     <template v-slot:activator>
       <omega-button>
-        {{ userName }}
+        {{ userInfo?.username }}
       </omega-button>
     </template>
 
@@ -20,7 +20,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent } from 'vue';
 import OmegaMenu from '@/components/OmegaComponents/OmegaMenu.vue';
 import OmegaButton from '@/components/OmegaComponents/OmegaButton.vue';
 
@@ -29,13 +29,12 @@ export default defineComponent({
     OmegaMenu,
     OmegaButton,
   },
-  
-  setup() {
-    const userName = ref('Kristoffer Solvang-Jansen');
 
-    return {
-      userName,
-    }
+  props: {
+    userInfo: {
+      type: Object,
+      default: undefined,
+    },
   },
 });
 </script>

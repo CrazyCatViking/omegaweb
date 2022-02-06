@@ -51,10 +51,19 @@ export default defineComponent({
   height: 2rem;
 
   vertical-align: center;
+  white-space: nowrap;
+  overflow-x: scroll;
 
   &--has-focus {
     border-color: lightblue;
   }
+
+  &::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
+
+  scrollbar-width: none;
 }
 
 .omega-input:hover {

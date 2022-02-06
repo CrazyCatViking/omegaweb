@@ -7,21 +7,30 @@
     </div>
     
     <omega-button 
-      v-if="false"
+      v-if="!userInfo?.id"
+      @click="login"
     >
       {{ 'Login' }}
     </omega-button>
-    <div class="global-menu__user-menu">
-      <UserMenu />
+    <div 
+      v-else-if="userInfo?.id"
+      class="global-menu__user-menu"
+    >
+      <UserMenu 
+        :user-info="userInfo"
+      />
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
+import { useGraphQL } from '@/graphql/useGraphQL';
 import OmegaButton from '@/components/OmegaComponents/OmegaButton.vue';
 import UserMenu from './components/UserMenu.vue';
 import GuildContextDropDown from './components/GuildContextDropDown.vue';
+import { useOmegaLogin } from './useOmegaLogin';
+import gql from 'graphql-tag';
 
 export default defineComponent({
   components: {
@@ -31,10 +40,33 @@ export default defineComponent({
   },
 
   setup() {
+    const { client } = useGraphQL();
     const selectedServer = ref();
+    const userInfo = ref<Record<string, any>>();
+    const { login } = useOmegaLogin();
+
+    const getUser = async () => {
+      const { data } = await client.query({
+        query: gql`
+          query GetUser {
+            user {
+              id,
+              username,
+            }
+          }
+        `,
+      });
+
+      userInfo.value = data.user;
+    };
+
+    getUser();
 
     return {
       selectedServer,
+      userInfo,
+
+      login,
     };
   },
 });
@@ -48,17 +80,6 @@ export default defineComponent({
   width: 100%;
 
   justify-content: space-between;
-}
-
-.global-menu__login-button {
-  border: none;
-  color: white;
-  background-color: darkgray;
-  float: right;
-  height: 100%;
-  width: 6rem;
-  text-align: center;
-  vertical-align: middle;
 }
 
 .global-menu__user-menu {

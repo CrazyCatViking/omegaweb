@@ -9,8 +9,10 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
+import { useGraphQL } from '@/graphql/useGraphQL';
 import OmegaDropdown from '@/components/OmegaComponents/OmegaDropdown.vue';
+import gql from 'graphql-tag';
 
 export default defineComponent({
   inheritAttrs: false,
@@ -20,32 +22,30 @@ export default defineComponent({
   },
 
   setup() {
-    const items = computed(() => ([
-      {
-        id: 'test1',
-        label: 'test1',
-      },
-      {
-        id: 'test2',
-        label: 'test2',
-      },
-      {
-        id: 'test3',
-        label: 'test3',
-      },
-      {
-        id: 'test4',
-        label: 'test4',
-      },
-      {
-        id: 'test5',
-        label: 'test5',
-      },
-      {
-        id: 'test6',
-        label: 'test6',
-      },
-    ]));
+    const { client } = useGraphQL();
+    const items = ref<any[]>([]);
+
+    const getGuilds = async () => {
+      const { data } = await client.query({
+        query: gql`
+          query GetGuilds {
+            guilds {
+              items {
+                id
+                name
+              }
+            },
+          },
+        `,
+      });
+
+      items.value = data.guilds?.items?.map((item: any) => ({
+        ...item,
+        label: item.name,
+      }));
+    }
+
+    getGuilds();
 
     return {
       items,

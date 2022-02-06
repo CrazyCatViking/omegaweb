@@ -9,7 +9,7 @@
     </div>
     
     <div class="app-content">
-      <router-view />
+      <router-view name="content" />
     </div>
   </div>
 </template>

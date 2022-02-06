@@ -25,7 +25,9 @@
             :key="item.id"
             @click="onListItemClick(item)"
           >
+          <span class="omega-dropdown__item-label">
             {{ item.label }}
+          </span>
           </omega-list-item>
         </omega-menu-list>
       </template>
@@ -104,7 +106,13 @@ export default defineComponent({
 
 <style lang="scss">
 .omega-dropdown__label {
+  display: flex;
+  flex-shrink: 1;
   line-height: 2rem;
   padding-left: 0.2rem;
+}
+
+.omega-dropdown__item-label {
+  padding: 0.2rem;
 }
 </style>
