@@ -1,6 +1,5 @@
 import { onBeforeUnmount } from "vue";
-import { useGraphQL } from "@/graphql/useGraphQL";
-import gql from 'graphql-tag';
+import { useAuth } from "@/utility/useAuth";
 
 export const useOmegaLogin = (): { login: () => void } => {
   const scope = 'identify guilds';
@@ -24,37 +23,16 @@ export const useOmegaLogin = (): { login: () => void } => {
   const recieveMessage = async (message: MessageEvent) => {
     if (message.origin !== baseUrl) return;
     
+    const { clientLogin } = useAuth();
     const { data } = message;
     const params = new URLSearchParams(data);
     const code = params.get('code');
 
     if (!code) return;
 
-    console.log(code);
-    authenticateUser(code);
+    await clientLogin(code);
 
     window.removeEventListener('message', recieveMessage);
-  }
-
-  const authenticateUser = async (code: string) => {
-    const { client } = useGraphQL();
-
-    const login = gql`
-      mutation Login($authCode: String!) {
-        login(authCode: $authCode) {
-          user
-        }
-      }
-    `;
-
-    const res = await client.mutation({
-      mutation: login,
-      variables: {
-        authCode: code,
-      },
-    });
-
-    console.log(res);
   }
 
   onBeforeUnmount(() => {

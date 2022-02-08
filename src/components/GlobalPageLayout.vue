@@ -16,6 +16,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { useAuth } from '@/utility/useAuth';
 import AppContextMenu from './AppContextMenu/AppContextMenu.vue';
 import AppGlobalMenu from './GlobalMenu/GlobalMenu.vue';
 
@@ -26,6 +27,15 @@ export default defineComponent({
   components: {
     AppContextMenu,
     AppGlobalMenu,
+  },
+
+  setup() {
+    const { clientAuth, self } = useAuth();
+    clientAuth();
+
+    return {
+      self,
+    }
   }
 })
 </script>

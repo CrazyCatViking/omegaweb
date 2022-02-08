@@ -2,22 +2,23 @@
   <div class="global-menu">
     <div class="global-menu__guild-context">
       <GuildContextDropDown 
+        v-if="self"
         v-model="selectedServer"
       />
     </div>
     
     <omega-button 
-      v-if="!userInfo?.id"
+      v-if="!self"
       @click="login"
     >
       {{ 'Login' }}
     </omega-button>
     <div 
-      v-else-if="userInfo?.id"
+      v-else-if="self"
       class="global-menu__user-menu"
     >
       <UserMenu 
-        :user-info="userInfo"
+        :user-info="self"
       />
     </div>
   </div>
@@ -25,12 +26,11 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import { useGraphQL } from '@/graphql/useGraphQL';
+import { useAuth } from '@/utility/useAuth';
 import OmegaButton from '@/components/OmegaComponents/OmegaButton.vue';
 import UserMenu from './components/UserMenu.vue';
 import GuildContextDropDown from './components/GuildContextDropDown.vue';
 import { useOmegaLogin } from './useOmegaLogin';
-import gql from 'graphql-tag';
 
 export default defineComponent({
   components: {
@@ -40,32 +40,13 @@ export default defineComponent({
   },
 
   setup() {
-    const { client } = useGraphQL();
-    const selectedServer = ref();
-    const userInfo = ref<Record<string, any>>();
+    const { self } = useAuth();
     const { login } = useOmegaLogin();
-
-    const getUser = async () => {
-      const { data } = await client.query({
-        query: gql`
-          query GetUser {
-            user {
-              id,
-              username,
-            }
-          }
-        `,
-      });
-
-      userInfo.value = data.user;
-    };
-
-    getUser();
+    const selectedServer = ref();
 
     return {
       selectedServer,
-      userInfo,
-
+      self,
       login,
     };
   },
