@@ -10,10 +10,10 @@
           v-model:visible="isVisible"
         >
           <span 
-            v-if="selectedItem?.label"
+            v-if="selectedLabel"
             class="omega-dropdown__label"
           >
-            {{ selectedItem?.label }}
+            {{ selectedLabel }}
           </span>
         </omega-input>
       </template>
@@ -36,7 +36,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watch } from 'vue'
+import { computed, defineComponent, ref, watch } from 'vue'
 import OmegaMenu from './OmegaMenu.vue';
 import OmegaMenuList from './OmegaMenuList.vue'
 import OmegaListItem from './OmegaListItem.vue';
@@ -75,28 +75,31 @@ export default defineComponent({
     const selectedItem = ref();
     const isVisible = ref(false);
 
+    const selectedLabel = computed(() => {
+      if (!selectedItem.value) return 'test';
+      const item: any = props.items.find((item: any) => item.id === selectedItem.value);
+      return item?.label ?? `[${selectedItem.value}]`
+    });
+
     const onListItemClick = (item: Record<string, unknown>) => {
-      selectedItem.value = item;
+      selectedItem.value = item.id;
       isVisible.value = false;
     };
 
     watch(() => props.modelValue, (value: any) => {
       if (!value) return;
-
-      const item = props.items?.find((item: any) => item.id === value);
-      if (!item) selectedItem.value = { id: value, label: value };
-      
-      selectedItem.value = item;
+      selectedItem.value = value;
     }, { immediate: true });
 
     watch(selectedItem, (value: any) => {
       if (value !== props.modelValue) {
-        emit('update:modelValue', value.id);
+        emit('update:modelValue', value);
       }
     });
 
     return {
       selectedItem,
+      selectedLabel,
       isVisible,
       onListItemClick,
     };
@@ -110,9 +113,14 @@ export default defineComponent({
   flex-shrink: 1;
   line-height: 2rem;
   padding-left: 0.2rem;
+
+  font-size: 12px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .omega-dropdown__item-label {
   padding: 0.2rem;
+  font-size: 12px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 </style>

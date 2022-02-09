@@ -25,7 +25,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, watch } from 'vue';
 import { useAuth } from '@/utility/useAuth';
 import OmegaButton from '@/components/OmegaComponents/OmegaButton.vue';
 import UserMenu from './components/UserMenu.vue';
@@ -40,9 +40,14 @@ export default defineComponent({
   },
 
   setup() {
-    const { self } = useAuth();
+    const { self, changeGuildContext } = useAuth();
     const { login } = useOmegaLogin();
     const selectedServer = ref();
+
+    watch(selectedServer, changeGuildContext);
+    watch(() => self.value?.guildContext?.id, (value: any) => {
+      selectedServer.value = value;
+    }, { immediate: true });
 
     return {
       selectedServer,

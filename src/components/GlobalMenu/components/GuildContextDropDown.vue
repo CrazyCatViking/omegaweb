@@ -9,10 +9,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
-import { useGraphQL } from '@/graphql/useGraphQL';
+import { defineComponent, computed } from 'vue'
+import { useAuth } from '@/utility/useAuth';
 import OmegaDropdown from '@/components/OmegaComponents/OmegaDropdown.vue';
-import gql from 'graphql-tag';
 
 export default defineComponent({
   inheritAttrs: false,
@@ -22,30 +21,11 @@ export default defineComponent({
   },
 
   setup() {
-    const { client } = useGraphQL();
-    const items = ref<any[]>([]);
-
-    const getGuilds = async () => {
-      const { data } = await client.query({
-        query: gql`
-          query GetGuilds {
-            guilds {
-              items {
-                id
-                name
-              }
-            },
-          },
-        `,
-      });
-
-      items.value = data.guilds?.items?.map((item: any) => ({
-        ...item,
-        label: item.name,
-      }));
-    }
-
-    getGuilds();
+    const { self } = useAuth();
+    const items = computed(() => self.value?.availableGuilds?.map((item: any) => ({
+      ...item,
+      label: item.name,
+    })));
 
     return {
       items,
