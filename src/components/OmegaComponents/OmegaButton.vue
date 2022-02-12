@@ -15,10 +15,20 @@ export default defineComponent({
 
 <style lang="scss">
 .omega-button {
+  display: flex;
+
+  justify-content: space-around;
+
+  align-items: center;
+
   height: 3rem;
-  border-radius: 4px;
   background: none;
   border: none;
+
+  .omega-external-icon {
+    height: 80%;
+    margin-right: 0.5rem;
+  }
 }
 
 .omega-button:hover {

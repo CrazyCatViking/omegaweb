@@ -14,7 +14,6 @@ interface IGraphQLMutation {
 }
 
 export const useGraphQL = (): { client: GraphQLClient; } => {
-  console.log(GraphQLUrl);
   const client = new GraphQLClient(GraphQLUrl);
 
   return {

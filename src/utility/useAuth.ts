@@ -25,10 +25,12 @@ const GET_SELF = gql`
     self {
       id
       username
+      avatar
 
       guildContext {
         id
         name
+        icon
       }
 
       availableGuilds {
@@ -70,6 +72,8 @@ export const useAuth = () => {
   }
 
   const changeGuildContext = async (guildId: string) => {
+    if (guildId === self.value?.guildContext?.id) return;
+
     const variables = {
       guildId,
     };
@@ -78,6 +82,9 @@ export const useAuth = () => {
       mutation: CHANGE_GUILD_CONTEXT,
       variables,
     });
+
+    if (!data.changeGuildContext) return; // Show some notification if this fails
+    clientAuth();
   }
 
   return {

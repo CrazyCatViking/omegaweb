@@ -1,23 +1,32 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import GlobalPageLayout from '../components/GlobalPageLayout.vue';
 import DiscordAuthPage from '../DiscordAuthPage.vue';
+import DashboardPage from '../Dashboard/DashboardPage.vue';
 import TestPage from '../TestPage.vue';
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    name: 'Dashboard',
+    name: 'Home',
     components: {
       master: GlobalPageLayout,
     },
 
     children: [
       {
-        path: '/',
+        path: '/dashboard',
+        name: 'Dashboard',
+        components: {
+          content: DashboardPage,
+        }
+      },
+      {
+        path: '/help',
+        name: 'Help',
         components: {
           content: TestPage,
         }
-      }
+      },
     ],
   },
   {

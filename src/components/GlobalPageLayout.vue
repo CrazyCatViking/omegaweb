@@ -61,7 +61,7 @@ $header-menu-height: 3rem;
   left: 0;
   top: 3rem;
 
-  background-color: gray;
+  background-color: whitesmoke;
 }
 
 .app-header-menu {
@@ -86,6 +86,8 @@ $header-menu-height: 3rem;
   top: 3rem;
   left: 12rem;
 
-  background-color: blue;
+  border: 1px solid black;
+
+  background-color: whitesmoke;
 }
 </style>

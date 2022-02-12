@@ -3,7 +3,8 @@
     direction="left"
   >
     <template v-slot:activator>
-      <omega-button>
+      <omega-button class="user-menu__button">
+        <omega-external-icon :src="userInfo?.avatar"/>
         {{ userInfo?.username }}
       </omega-button>
     </template>
@@ -23,11 +24,13 @@
 import { defineComponent } from 'vue';
 import OmegaMenu from '@/components/OmegaComponents/OmegaMenu.vue';
 import OmegaButton from '@/components/OmegaComponents/OmegaButton.vue';
+import OmegaExternalIcon from '@/components/OmegaComponents/OmegaExternalIcon.vue';
 
 export default defineComponent({
   components: {
     OmegaMenu,
     OmegaButton,
+    OmegaExternalIcon,
   },
 
   props: {
