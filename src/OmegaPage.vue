@@ -27,8 +27,11 @@ export default defineComponent({
 
 <style lang="scss">
 .omega-page {
+  display: flex;
+  flex-direction: column;
   margin: 1.0rem 1.0rem 1.0rem 1.0rem;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  height: calc(100% - 2.0rem);
 }
 
 .omega-page__title {
@@ -45,6 +48,7 @@ export default defineComponent({
 }
 
 .omega-page__content {
+  overflow: hidden;
   padding-top: 1rem;
 }
 </style>

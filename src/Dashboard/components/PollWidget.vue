@@ -8,9 +8,10 @@
         <div
           v-for="item in items"
           :key="item.id" 
-          class="poll-widget__item"
         >
-          {{ item.description }}
+          <PollWidgetItem 
+            :poll="item"
+          />
         </div>
       </div>
     </template>
@@ -22,13 +23,17 @@ import { defineComponent, ref } from 'vue';
 import gql from 'graphql-tag';
 import { useGraphQL } from '@/graphql/useGraphQL';
 import BaseWidget from './BaseWidget.vue';
+import PollWidgetItem from './PollWidgetItem.vue';
 
 const GET_POLLS = gql`
   query GetPolls {
     polls {
       id
       description
-      options
+      options {
+        name
+        votes
+      }
       status
       pollMessageData {
         messageId
@@ -41,6 +46,7 @@ const GET_POLLS = gql`
 export default defineComponent({
   components: {
     BaseWidget,
+    PollWidgetItem,
   },
 
   setup() {
@@ -66,27 +72,14 @@ export default defineComponent({
 
 <style lang="scss">
 .poll-widget {
-  width: 20rem;
+  width: 30rem;
+  box-shadow: 1px 1px 2px black;
 }
 
 .poll-widget__table {
   display: flex;
   flex-direction: column;
 
-  height: 20rem;
-}
-
-.poll-widget__item {
-  display: flex;
-  align-items: center;
-
-  padding-left: 0.5rem;
-
-  border-bottom: 1px solid black;
-  height: 2.5rem;
-
-  &:hover {
-    background-color: rgba(0, 0, 0, 0.1);
-  }
+  overflow: auto;
 }
 </style>

@@ -81,10 +81,11 @@ $header-menu-height: 3rem;
   position: fixed;
   height: calc(100% - $header-menu-height);
   width: calc(100% - $context-menu-width);
-  overflow: auto;
   
   top: 3rem;
   left: 12rem;
+
+  overflow: auto;
 
   border: 1px solid black;
 

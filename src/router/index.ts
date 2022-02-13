@@ -2,6 +2,7 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import GlobalPageLayout from '../components/GlobalPageLayout.vue';
 import DiscordAuthPage from '../DiscordAuthPage.vue';
 import DashboardPage from '../Dashboard/DashboardPage.vue';
+import PollPage from '../Polls/PollPage.vue';
 import TestPage from '../TestPage.vue';
 
 const routes: Array<RouteRecordRaw> = [
@@ -18,6 +19,13 @@ const routes: Array<RouteRecordRaw> = [
         name: 'Dashboard',
         components: {
           content: DashboardPage,
+        }
+      },
+      {
+        path: '/polls',
+        name: 'Polls',
+        components: {
+          content: PollPage,
         }
       },
       {

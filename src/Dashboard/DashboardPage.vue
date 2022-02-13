@@ -3,7 +3,7 @@
     <template v-slot:header>
       <omega-external-icon 
         :src="self?.guildContext.icon" 
-        style="margin-right: 0.5rem;"
+        style="margin-right: 0.5rem; height: 2rem; width: 2rem;"
       />
       {{ self?.guildContext.name }}
     </template>

@@ -5,6 +5,11 @@
       route="/dashboard"
     />
 
+    <AppMenuItem
+      name="Polls"
+      route="/polls"
+    />
+
     <AppMenuItem 
       name="Help"
       route="/help"
