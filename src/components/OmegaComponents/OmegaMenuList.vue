@@ -10,7 +10,6 @@
   flex-direction: column;
 
   max-height: 13rem;
-  max-width: 12rem;
   overflow: auto;
   overflow-x: hidden;
 }

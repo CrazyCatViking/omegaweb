@@ -116,6 +116,7 @@ export default defineComponent({
   position: fixed;
   background-color: white;
   border-radius: 4px;
+  outline: 1px solid black;
 
   overflow: hidden;
 }

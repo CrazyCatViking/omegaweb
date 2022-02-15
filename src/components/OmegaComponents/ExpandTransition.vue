@@ -3,6 +3,7 @@
     name="expand" 
     mode="in-out"
     @enter="onEnter"
+    @afterEnter="onAfterEnter"
     @leave="onLeave"
   >
     <slot />
@@ -24,17 +25,25 @@ export default defineComponent({
       getComputedStyle(element).height;
 
       element.style.height = height;
-    }
+    };
+
+    const onAfterEnter = async (element: HTMLElement) => {
+      element.style.height = '';
+    };
 
     const onLeave = async (element: HTMLElement) => {
+      const { height } = getComputedStyle(element);
+      element.style.height = height;
+      getComputedStyle(element).height;
       element.style.height = '0';
-    } 
+    };
 
     return {
       onEnter,
+      onAfterEnter,
       onLeave,
-    }
-  }
+    };
+  },
 });
 </script>
 

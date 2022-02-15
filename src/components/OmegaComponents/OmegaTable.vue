@@ -33,7 +33,7 @@
             v-show="row.open"
             class="omega-table__row-body"
           >
-            <slot name="row-body"/> 
+            <slot name="row-body" :row="row"/> 
           </div>
         </ExpandTransition>
       </div>
@@ -42,7 +42,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watch } from 'vue'
+import { defineComponent, ref, toRef, watch } from 'vue'
 import ExpandTransition from './ExpandTransition.vue';
 
 export default defineComponent({
@@ -63,7 +63,7 @@ export default defineComponent({
   },
 
   setup(props) {
-    const rows = ref(props.items);
+    const rows = toRef(props, 'items');
     const selection = ref('');
 
     const getRowClass = (rowId: string) => {
@@ -105,24 +105,24 @@ export default defineComponent({
 
 <style lang="scss">
 .omega-table {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: 100%;
-  border-top: 1px solid black;
+  min-width: 100%;
+  min-height: 100%;
 }
 
 .omega-table__header {
+  min-width: 100%;
+  min-height: 100%;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   line-height: 2rem;
 
   height: 2rem;
+  border-top: 1px solid black;
   background-color: grey;
 }
 
 .omega-table__column {
-  flex: 1;
+  flex: 1 0 12rem;
   padding-left: 1rem;
   padding-right: 1rem;
 
@@ -135,12 +135,13 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
 
-  overflow: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .omega-table__row {
   display: flex;
-  justify-content: space-around;
+  justify-content: flex-start;
 
   height: 2rem;
   line-height: 2rem;
@@ -163,7 +164,7 @@ export default defineComponent({
 }
 
 .omega-table__cell {
-  flex: 1;
+  flex: 1 0 12rem;
   padding-left: 1rem;
   padding-right: 1rem;
 

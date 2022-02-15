@@ -41,6 +41,7 @@ import OmegaMenu from './OmegaMenu.vue';
 import OmegaMenuList from './OmegaMenuList.vue'
 import OmegaListItem from './OmegaListItem.vue';
 import OmegaInput from './OmegaInput.vue';
+import { useModelValue } from '@/helpers/useModelValue';
 
 export default defineComponent({
   components: {
@@ -72,7 +73,7 @@ export default defineComponent({
   ],
   
   setup(props, { emit }) {
-    const selectedItem = ref();
+    const selectedItem = useModelValue(props, emit);
     const isVisible = ref(false);
 
     const selectedLabel = computed(() => {
@@ -85,17 +86,6 @@ export default defineComponent({
       selectedItem.value = item.id;
       isVisible.value = false;
     };
-
-    watch(() => props.modelValue, (value: any) => {
-      if (!value) return;
-      selectedItem.value = value;
-    }, { immediate: true });
-
-    watch(selectedItem, (value: any) => {
-      if (value !== props.modelValue) {
-        emit('update:modelValue', value);
-      }
-    });
 
     return {
       selectedItem,
@@ -114,13 +104,13 @@ export default defineComponent({
   line-height: 2rem;
   padding-left: 0.2rem;
 
-  font-size: 12px;
+  font-size: 13px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .omega-dropdown__item-label {
   padding: 0.2rem;
-  font-size: 12px;
+  font-size: 13px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 </style>

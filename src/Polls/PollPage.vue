@@ -6,65 +6,78 @@
       :columns="columns"
       :items="items"
     >
-      <template v-slot:row-body>
-        <div class="poll-page__poll-edit">
-          {{ 'test' }}
-        </div>
+      <template v-slot:row-body="{ row }">
+        <PollEdit 
+          :poll="row"
+        />
       </template>
     </omega-table> 
   </omega-page>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, ref } from 'vue';
+import { useGraphQL } from '@/graphql/useGraphQL';
 import OmegaPage from '@/OmegaPage.vue';
 import OmegaTable from '@/components/OmegaComponents/OmegaTable.vue';
+import PollEdit from './components/PollEdit.vue';
+import gql from 'graphql-tag';
+
+const GET_POLLS = gql`
+  query GetPolls {
+    polls {
+      id
+      description
+      options {
+        name
+        votes
+      }
+      status
+      pollMessageData {
+        messageId
+        channelId
+      }
+    },
+  },
+`
 
 export default defineComponent({
   components: {
     OmegaPage,
     OmegaTable,
+    PollEdit,
   },
 
   setup() {
+    const { client } = useGraphQL();
+    const items = ref([]);
+
+    const getPolls = async () => {
+      const { data } = await client.query({
+        query: GET_POLLS,
+      });
+
+      console.log(data.polls);
+
+      items.value = data.polls;
+    }
+
     const columns = [
       {
-        key: 'test1',
-        title: 'Test 1 123414raweetrae45345345rw wefradgtsdfgsdfg',
+        key: 'id',
+        title: 'Name',
       },
       {
-        key: 'test2',
-        title: 'Test 2',
+        key: 'description',
+        title: 'Description',
       },
       {
-        key: 'test3',
-        title: 'Test 3',
+        key: 'status',
+        title: 'Status',
       },
     ];
 
-    const items = [
-      {
-        id: 'id1',
-        open: false,
-        test1: 'test1 123 123123 123123 123123123123',
-        test2: 'test2',
-        test3: 'test3',
-      },
-      {
-        id: 'id2',
-        open: false,
-        test1: 'test1',
-        test2: 'test2',
-        test3: 'test3',
-      },
-      {
-        id3: 'id3',
-        open: false,
-        test1: 'test1',
-        test2: 'test2',
-        test3: 'test3',
-      },
-    ];
+    getPolls();
 
     return {
       columns,

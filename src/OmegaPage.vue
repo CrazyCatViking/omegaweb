@@ -48,7 +48,6 @@ export default defineComponent({
 }
 
 .omega-page__content {
-  overflow: hidden;
   padding-top: 1rem;
 }
 </style>

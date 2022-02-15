@@ -1,7 +1,7 @@
 <template>
   <div :class="['omega-input', getClass()]">
     <div 
-      v-if="isEmpty"
+      v-if="isEmpty && !hasFocus"
       class="omega-input__label"
     >
       {{ label }}
@@ -45,10 +45,15 @@ export default defineComponent({
 
 <style lang="scss">
 .omega-input {
+  display: flex;
+
   background-color: white;
   border: 1px solid black;
   border-radius: 4px;
   height: 2rem;
+
+  padding-left: 0.2rem;
+  padding-right: 0.2rem;
 
   vertical-align: center;
   white-space: nowrap;
