@@ -21,7 +21,11 @@ jobs:
       - name: Set environment variables
         run: |
           touch .env
-          echo ENVIRONMENT_VARIABLE=${{secrets.ENVIRONMENT_VARIABLE}} >> .env
+          echo VUE_APP_BASE_URL=${{secrets.VUE_APP_BASE_URL}} >> .env
+          echo VUE_APP_DISCORD_BASE_API_URL=${{secrets.VUE_APP_DISCORD_BASE_API_URL}} >> .env
+          echo VUE_APP_DISCORD_CALLBACK_URL=${{secrets.VUE_APP_DISCORD_CALLBACK_URL}} >> .env
+          echo VUE_APP_DISCORD_CLIENT_ID=${{secrets.VUE_APP_DISCORD_CLIENT_ID}} >> .env
+          echo VUE_APP_GRAPHQL_URL=${{secrets.VUE_APP_GRAPHQL_URL}} >> .env
       - name: Build And Deploy
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
@@ -37,7 +41,7 @@ jobs:
           ###### End of Repository/Build Configurations ######
       - name: Remove environment variables
         run: |
-          rm. env
+          rm .env
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
