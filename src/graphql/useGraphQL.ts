@@ -37,6 +37,7 @@ export class GraphQLClient {
           query: print(query),
           variables,
         },
+        withCredentials: true,
       });
 
       return res.data;
@@ -55,6 +56,7 @@ export class GraphQLClient {
           query: print(mutation),
           variables,
         },
+        withCredentials: true,
       });
       
       return res.data;
